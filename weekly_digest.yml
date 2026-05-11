@@ -1,0 +1,36 @@
+name: Discord Weekly Digest
+
+on:
+  schedule:
+    # Chaque dimanche à 20h00 UTC (= 22h00 heure française en été, 21h00 en hiver)
+    - cron: "0 20 * * 0"
+  # Permet aussi de déclencher manuellement depuis l'onglet Actions de GitHub
+  workflow_dispatch:
+
+jobs:
+  digest:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Récupérer le code
+        uses: actions/checkout@v4
+
+      - name: Configurer Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Installer les dépendances
+        run: pip install -r requirements.txt
+
+      - name: Écrire le fichier credentials Google
+        # Le contenu JSON du compte de service est stocké dans un secret GitHub
+        # et reconstitué en fichier au moment de l'exécution
+        run: echo '${{ secrets.GOOGLE_CREDENTIALS_JSON }}' > credentials.json
+
+      - name: Lancer le digest
+        env:
+          DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
+          GOOGLE_DOC_ID: ${{ secrets.GOOGLE_DOC_ID }}
+          GOOGLE_CREDENTIALS_FILE: credentials.json
+        run: python bot.py
