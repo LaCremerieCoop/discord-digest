@@ -1,6 +1,6 @@
 # Discord Weekly Digest
 
-Bot qui collecte chaque semaine les messages Discord et les dépose automatiquement dans un Google Doc partagé.
+Bot qui collecte chaque semaine les messages Discord et les dépose automatiquement dans un Google Doc partagé (update 07/26).
 
 **Cas d'usage :** l'ensemble de notre collectif n'est pas sur Discord — le résumé est glissé chaque lundi dans la liste de diffusion par mail.
 
